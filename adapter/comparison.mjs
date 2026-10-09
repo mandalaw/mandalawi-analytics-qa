@@ -1,4 +1,4 @@
-import{client}from'../client-config.mjs';import{PrivacyState}from'./privacy-state.mjs';import{Events,pageContext,context}from'./events.mjs';import{PostHogAdapter as Failed}from'./failed-adapter.mjs';import{PostHogAdapter as Fixed}from'./fixed-adapter.mjs';
+import{client}from'../client-config.mjs?v=15ecd476f284';import{PrivacyState}from'./privacy-state.mjs?v=2257ac6b2ab7';import{Events,pageContext,context}from'./events.mjs?v=5ffbeca47f5e';import{PostHogAdapter as Failed}from'./failed-adapter.mjs?v=de2c3cc18c57';import{PostHogAdapter as Fixed}from'./fixed-adapter.mjs?v=c8b4aab5a6e1';
 const rows=[],store=()=>{const m=new Map();return{getItem:k=>m.get(k)||null,setItem:(k,v)=>m.set(k,v),removeItem:k=>m.delete(k)}};let events,transport;
 const signals=()=>({gpc:navigator.globalPrivacyControl===true,dnt:navigator.doNotTrack==='1'}),privacy=new PrivacyState({storage:store(),session:store(),signals});
 const note=x=>{rows.push({at:new Date().toISOString(),...x});document.querySelector('#result').textContent=JSON.stringify(rows,null,2);};

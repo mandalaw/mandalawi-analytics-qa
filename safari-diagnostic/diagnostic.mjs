@@ -4,7 +4,7 @@ const nativeFetch=globalThis.fetch.bind(globalThis);
 let sdk,activeRun,loaderStarted=performance.now();
 const signals=()=>({gpc:navigator.globalPrivacyControl===true,dnt:navigator.doNotTrack==='1'});
 const allowed=()=>{try{return JSON.parse(localStorage.getItem('mandalaw.analytics.choice.v1'))?.state==='ACCEPTED'&&!signals().gpc&&!signals().dnt;}catch{return false;}};
-const render=()=>{document.querySelector('#trace').textContent=JSON.stringify(rows,null,2);document.querySelector('#latest').textContent=rows.at(-1)?.stage||'ready';document.querySelector('#sdk-health').disabled=!allowed();document.querySelector('#direct-health').disabled=!allowed();};
+const render=()=>{document.querySelector('#trace').replaceChildren(...rows.flatMap((row,index)=>{const json=JSON.stringify(row),chunks=json.match(/.{1,300}/gs)||[];return chunks.map((chunk,part)=>{const p=document.createElement('p');p.textContent='TRACE '+index+'.'+part+'/'+chunks.length+' '+chunk;return p;});}));document.querySelector('#latest').textContent=rows.at(-1)?.stage||'ready';document.querySelector('#sdk-health').disabled=!allowed();document.querySelector('#direct-health').disabled=!allowed();};
 const note=detail=>{if(detail.stage==='queued'&&!detail.count&&!detail.inflight)return;rows.push({at:new Date().toISOString(),ms:Math.round(performance.now()-loaderStarted),...detail});if(rows.length>250)rows.shift();render();};
 document.addEventListener('diagnostic-trace',e=>note(e.detail));
 document.addEventListener('securitypolicyviolation',e=>note({stage:'csp_violation',directive:e.effectiveDirective}));

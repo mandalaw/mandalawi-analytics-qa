@@ -1,0 +1,1 @@
+export const client = Object.freeze({"projectId": 654261, "token": "phc_sygzhj6ooeu5B72dkRMVBcCjVQzwpN3RUpPP8cp5ZFsK", "apiHost": "https://us.i.posthog.com", "probeVersion": "24.3.1-healthcheck-v1"});
